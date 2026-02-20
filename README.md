@@ -1,0 +1,1 @@
+For now this is only a PID controller (not done with simulating with gazebo and tuning gains) for an inverted pendulun, or cart-pole setup. In the future I also plan to implement LQR, which I've already done in MATLAB/simulink. I should hopefully soon add to this and make it more comprehensive but right now the entire project is still a work in progress.
