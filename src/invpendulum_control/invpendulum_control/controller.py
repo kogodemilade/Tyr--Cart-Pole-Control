@@ -30,7 +30,7 @@ class Controller(Node):
         self.kd = self.get_parameter("kd").get_parameter_value().double_value
         self.ki = self.get_parameter("ki").get_parameter_value().double_value
 
-        self.signal_gain = 20
+        self.signal_gain = 15
         
         self.prev_time = self.get_clock().now()
         self.pole_angle = 0.0
@@ -70,6 +70,11 @@ class Controller(Node):
         pole_index= msg.name.index("pendulum_shaft_joint")
         self.pole_angle = msg.position[pole_index]
         self.pole_velocity = msg.velocity[pole_index]
+
+        # self.pole
+        # self.sign = self
+        # if self.pole_angle > 3.1415:
+        #     self.pole_angle += -2*3.1415926
 
 
         current_time = Time.from_msg(msg.header.stamp)

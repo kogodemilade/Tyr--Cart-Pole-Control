@@ -226,8 +226,8 @@
     name="pendulum_shaft_link">
     <inertial>
       <origin
-        xyz="-3.26172092113275E-09 -9.4628805232283E-05 -0.011847861273337"
-        rpy="0 0 -1.5708" />
+        xyz="0 -9.4628805232283E-05 -0.011847861273337"
+        rpy="0 0 -1.57" />
       <mass
         value="0.274631062675936" />
       <inertia
@@ -274,13 +274,13 @@
       link="pendulum_shaft_link" />
     <axis
       xyz="0 0 1" />
-    <!-- <dynamics damping="0.1"/> -->
+    <dynamics damping="0.001"/>
   </joint>
   <link
     name="pendulum_shaft">
     <inertial>
       <origin
-        xyz="0 -.566 0.00499999999999984"
+        xyz="0.566 0 0.00499999999999984"
         rpy="0 0 -1.57" />
       <mass
         value="0.207156317748298" />
