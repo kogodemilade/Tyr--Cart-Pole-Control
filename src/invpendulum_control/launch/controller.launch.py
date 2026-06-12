@@ -76,6 +76,14 @@ def generate_launch_description():
     #     description="Use custom simple controller "
     # )
 
+    use_pid_controller_arg = DeclareLaunchArgument(
+        "use_pid_controller",
+        default_value="False",
+        description="Use pid controller"
+    )
+
+    use_pid_controller = LaunchConfiguration("use_pid_controller")
+
     
     wheel_radius = LaunchConfiguration("wheel_radius")
     pendulum_length = LaunchConfiguration("pendulum_length")
@@ -104,11 +112,23 @@ def generate_launch_description():
             parameters=[{'use_sim_time': True}]
         )
 
-    pendulum_controller = Node(
+    pid_controller = GroupAction(
+    condition = IfCondition(use_pid_controller),
+    actions= [Node(
                 package="invpendulum_control",
-                executable="controller",
+                executable="pid_controller",
                 parameters=[{"wheel_radius": wheel_radius, "pendulum_length": pendulum_length, "kp": kp, "kd": kd, "ki": ki}, {'use_sim_time': True}]
-            )
+            )]
+    )
+
+    lqr_controller = GroupAction(
+    condition = UnlessCondition(use_pid_controller),
+    actions= [Node(
+                package="invpendulum_control",
+                executable="lqr_controller",
+                parameters=[{"wheel_radius": wheel_radius, "pendulum_length": pendulum_length}, {'use_sim_time': True}]
+            )]
+    )
 
 
     # # noisy_controller_spawner = OpaqueFunction(function=noisy_controller)
@@ -119,19 +139,15 @@ def generate_launch_description():
 
     ld = LaunchDescription()
     ld.add_action(sim_time_parameter)
-    # ld.add_action(use_simple_controller_arg)
-    # ld.add_action(use_python_arg)
-    ld.add_action(wheel_radius_arg)
-    ld.add_action(pendulum_length_arg)
+    ld.add_action(use_pid_controller_arg)
     ld.add_action(kp_arg)
     ld.add_action(kd_arg)
     ld.add_action(ki_arg)
-    # ld.add_action(wheel_radius_err)
-    # ld.add_action(wheel_sep_err)
+    ld.add_action(wheel_radius_arg)
+    ld.add_action(pendulum_length_arg)
     ld.add_action(joint_state_broadcaster_spawner)
     ld.add_action(effort_controller)
-    # ld.add_action(velocity_controller)
-    # ld.add_action(noisy_controller_)
-    ld.add_action(pendulum_controller)
+    ld.add_action(pid_controller)
+    ld.add_action(lqr_controller)
     return ld
 

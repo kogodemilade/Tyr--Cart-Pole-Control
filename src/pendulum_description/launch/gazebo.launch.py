@@ -37,7 +37,7 @@ def generate_launch_description():
     world = os.path.join(
         get_package_share_directory('pendulum_description'),
         'worlds',
-        'empty_world.world'
+        'empty_world.world.sdf'
     )
     
     robot_state_publisher = Node(
@@ -66,7 +66,7 @@ def generate_launch_description():
         package="ros_gz_sim",
         executable="create",
         arguments=["-name", "pendulum", "-topic", "robot_description", '-x', x_pose,
-        '-y', y_pose, '-z', z_pose, "-iterations", "10", "--physics-engine", "bullet"],
+        '-y', y_pose, '-z', z_pose],
         parameters=[{'use_sim_time': True}],
         output="screen",
     )

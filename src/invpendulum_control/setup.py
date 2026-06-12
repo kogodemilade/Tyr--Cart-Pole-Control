@@ -24,7 +24,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'controller = invpendulum_control.controller:main',
+            'pid_controller = invpendulum_control.pid_controller:main',
+            'lqr_controller = invpendulum_control.lqr_controller:main'
         ],
     },
 )

@@ -43,7 +43,7 @@ class Controller(Node):
         self.prev_pole_angle = 0.0
         self.cumulative_error = 0.0
 
-        self.force_gain = 10e0
+        self.force_gain = 10e5
 
         # self.wheel_cmd_pub = self.create_publisher(Float64MultiArray, "velocity_controller/commands", 10)
         self.swing_up_pub = self.create_publisher(Float64MultiArray, "effort_controller/commands", 100)
@@ -62,8 +62,8 @@ class Controller(Node):
 
     
     def jointCallback(self, msg):
-        # poison = random.random()*0.1
-        poison = 0
+        poison = random.random()*0.005
+        # poison = 0
         cart_index= msg.name.index("cart_joint")
         cart_position = msg.position[cart_index]+poison
         self.cart_position = cart_position
@@ -99,7 +99,7 @@ class Controller(Node):
         #     return
         
 
-        if abs(self.pole_angle) < 0.3: #PID controller
+        if abs(self.pole_angle) < 10: #PID controller
             self.get_logger().info("Using pid")
             # derivative = (self.pole_angle - self.prev_pole_angle)/dt
             derivative = self.pole_velocity
@@ -115,11 +115,11 @@ class Controller(Node):
             final_signal = -signal*self.signal_gain*self.force_gain
             self.command.data = [final_signal]
             self.swing_up_pub.publish(self.command)
-            # self.get_logger().info(f"adjusting signal:  {final_signal}", )
-            # self.get_logger().info(f"proportional:  {proportional_}", )
-            # self.get_logger().info(f"integral:  {integral_}", )
-            # self.get_logger().info(f"der:  {derivative_}", )
-            # self.get_logger().info(f"pole angle:  {self.pole_angle}", )
+            self.get_logger().info(f"adjusting signal:  {final_signal}", )
+            self.get_logger().info(f"proportional:  {proportional_}", )
+            self.get_logger().info(f"integral:  {integral_}", )
+            self.get_logger().info(f"der:  {derivative_}", )
+            self.get_logger().info(f"pole angle:  {self.pole_angle}", )
             # self.get_logger().info(f"kp:  {self.kp}", )
             # self.get_logger().info(f"kd:  {self.kd}", )
             # self.get_logger().info(f"ki:  {self.ki}", )

@@ -6,7 +6,7 @@
 
 <robot
   name="pendulum" xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:include filename="$(find pendulum_description)/urdf/pendulum_gazebo.xacro" />
+  <xacro:include filename="$(find pendulum_description)/urdf/pendulum_gazebo.xacro" /> 
   <xacro:include filename="$(find pendulum_description)/urdf/pendulum_ros2_control.xacro" />
 
   <link name="base_footprint"/>
@@ -18,14 +18,14 @@
         xyz="6.36331745104857E-16 -0.226629032258064 -0.5"
         rpy="0 0 1.5708" />
       <mass
-        value="135.625" />
+        value="135000.625" />
       <inertia
-        ixx="120.66933800235214"
-        ixy="-8.34457950766646E-16"
-        ixz="1.68593437821496E-14"
-        iyy="121.983188541667"
-        iyz="-1.53839894452422E-15"
-        izz="128.712191127352" />
+        ixx="120000.66933800235214"
+        ixy="-8000.34457950766646E-16"
+        ixz="1000.68593437821496E-14"
+        iyy="121000.983188541667"
+        iyz="-1000.53839894452422E-15"
+        izz="128000.712191127352" />
     </inertial>
     <visual>
       <origin
@@ -66,7 +66,7 @@
         xyz="0.164307811287998 0.0220987949533505 0.134063268805466"
         rpy="0 0 0" />
       <mass
-        value="7.51020537336025" />
+        value="2.0" />
       <inertia
         ixx="0.0908570873245677"
         ixy="0.000609128603190611"
@@ -114,8 +114,9 @@
     <limit
       lower="-6"
       upper="6"
-      effort="100"
-      velocity="10" />
+      effort="10e4"
+      velocity="10e3" />
+    <dynamics damping='0.000001' friction='0.000001'/> 
   </joint>
   <link
     name="wheel_shaft_link">
@@ -229,14 +230,14 @@
         xyz="0 -9.4628805232283E-05 -0.011847861273337"
         rpy="0 0 -1.57" />
       <mass
-        value="0.274631062675936" />
+        value="0.00274631062675936" />
       <inertia
-        ixx="7.16968521355364E-05"
-        ixy="1.6082318495927E-11"
-        ixz="-1.54635176865287E-11"
-        iyy="7.20225194163355E-05"
-        iyz="-5.23183126573732E-07"
-        izz="3.07208743781879E-05" />
+        ixx="7.16968521355364E-07"
+        ixy="1.6082318495927E-13"
+        ixz="-1.54635176865287E-13"
+        iyy="7.20225194163355E-07"
+        iyz="-5.23183126573732E-09"
+        izz="3.07208743781879E-07" />
     </inertial>
     <visual>
       <origin
@@ -255,7 +256,7 @@
     <collision>
       <origin
         xyz="0 0 0"
-        rpy="0 0 0" />
+        rpy="0 0 -1.5708" />
       <geometry>
         <mesh
           filename="file://$(find pendulum_description)/meshes/pendulum_shaft_link.STL" />
@@ -274,27 +275,26 @@
       link="pendulum_shaft_link" />
     <axis
       xyz="0 0 1" />
-    <dynamics damping="0.01"/>
   </joint>
   <link
     name="pendulum_shaft">
     <inertial>
       <origin
-        xyz="0.566 0 0.00499999999999984"
+        xyz="0.574 -0.0188 0"
         rpy="0 0 -1.57" />
       <mass
-        value="0.207156317748298" />
+        value="0.031" />
       <inertia
-        ixx="0.00805828372968201"
-        ixy="5.11607900141597E-19"
-        ixz="-1.85132047112081E-20"
-        iyy="2.26802133368564E-05"
-        iyz="-5.36591259051731E-18"
-        izz="0.00807751133772306" />
+        ixx="0.0030749"
+        ixy="0.0014591"
+        ixz="-1.4031E-18"
+        iyy="0.00069572"
+        iyz="2.9593E-18"
+        izz="0.00377" />
     </inertial>
     <visual>
       <origin
-        xyz="0.566 0 0"
+        xyz="0.574 -0.0188 0"
         rpy="0 0 -1.57" />
       <geometry>
         <mesh
@@ -308,8 +308,8 @@
     </visual>
     <collision>
       <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+        xyz="0.574 -0.0188 0"
+        rpy="0 0 -1.57" />
       <geometry>
         <mesh
           filename="file://$(find pendulum_description)/meshes/pendulum_shaft.STL" />
@@ -320,12 +320,65 @@
     name="pendulum_joint"
     type="fixed">
     <origin
-      xyz="0 0 -0.0369999999999996"
-      rpy="0 0 0" />
+      xyz="0.0 0.00 -0.0369999999999996"
+      rpy="0 0 2.7" />
     <parent
       link="pendulum_shaft_link" />
     <child
       link="pendulum_shaft" />
+  </joint>
+
+ <link
+    name="tip_mass">
+    <inertial>
+      <origin
+        xyz="-0.0 0.0 0.015"
+        rpy="0 0 0" />
+      <mass
+        value="0.45" />
+      <inertia
+        ixx="7.3423E-05"
+        ixy="1.7152E-19"
+        ixz="1.2829E-21"
+        iyy="0.00017431"
+        iyz="-3.3349E-20"
+        izz="0.00017915" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="-0.0 0.0 0.015"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find pendulum_description)/meshes/tip_mass.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.65098 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="-0.0 0.0 0.015"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find pendulum_description)/meshes/tip_mass.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint
+    name="tip_joint"
+    type="fixed">
+    <origin
+      xyz="-1.08 -.515 -0.01"
+      rpy="0 0 2" />
+    <parent
+      link="pendulum_shaft" />
+    <child
+      link="tip_mass" />
   </joint>
 
   <link name='imu_link'>

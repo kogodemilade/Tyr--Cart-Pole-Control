@@ -29,20 +29,14 @@ def generate_launch_description():
     robot_state_publisher = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
-        output='screen',
         parameters=[{
-            "robot_description": robot_description,
-            "publish_robot_description": True  # This publishes the topic!
-        }]
+            "robot_description": robot_description}]
     )
 
-    # REMOVE the robot_description parameter - it subscribes to the topic instead
     joint_state_publisher_gui = Node(
-        package="joint_state_publisher",
-        executable="joint_state_publisher",
+        package="joint_state_publisher_gui",
+        executable="joint_state_publisher_gui",
         name='joint_state_publisher',
-        output='screen',
-        # No parameters needed! It subscribes to /robot_description topic
     )
 
     rviz_node = Node(
@@ -58,9 +52,9 @@ def generate_launch_description():
     )
     
     return LaunchDescription([
-        sim_time_parameter,
+        # sim_time_parameter,
         model_arg, 
         robot_state_publisher,
-        # joint_state_publisher_gui,  # Remove TimerAction, not needed
+        joint_state_publisher_gui,  # Remove TimerAction, not needed
         rviz_node,
     ])
