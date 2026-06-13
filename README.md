@@ -1,7 +1,7 @@
 # Tyr
 A Cart-Pole Stabilization Project
 
-![Tyr](images/cart-pole.png)
+![Tyr](videos/cart-pole.gif)
 
 This project is a ROS-based implementation and simulation of the famous cart-pole stabilization problem in **control theory**. This is a brief introduction and usage and installation guide for this project. A longer, more technical explanation of the project can be found [here]().
 
