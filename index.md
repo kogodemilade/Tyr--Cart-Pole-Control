@@ -16,18 +16,18 @@ found in the src\pendulum\description\meshes directory. The MATLAB system design
 
 **Variables**
 
-- $l$ = pendulum length
-- $m_c$ = cart mass
-- $m_p$ = pendulum mass
-- $x_c$ = cart position
-- $x_p$ = pendulum horizontal position
-- $y_p$ = pendulum vertical position
-- $\dot{x}_c$ = cart velocity
-- $\dot{x}_p$ = pole horizontal velocity
-- $\dot{y}_p$ = pole vertical velocity
-- $\theta$ = pole angular displacement from vertical axis
-- $g$ = acceleration due to gravity, $9.81 \, \text{ms}^{-2}$
-- $T$ = Rod tension
+- $$l$$ = pendulum length
+- $$m_c$$ = cart mass
+- $$m_p$$ = pendulum mass
+- $$x_c$$ = cart position
+- $$x_p$$ = pendulum horizontal position
+- $$y_p$$ = pendulum vertical position
+- $$\dot{x}_c$$ = cart velocity
+- $$\dot{x}_p$$ = pole horizontal velocity
+- $$\dot{y}_p$$ = pole vertical velocity
+- $$\theta$$ = pole angular displacement from vertical axis
+- $$g$$ = acceleration due to gravity, $9.81 \, \text{ms}^{-2}$
+- $$T$$ = Rod tension
 
 First, we get the horizontal and vertical accelerations for the pendulum center of mass (which is at its tip):
 
@@ -190,5 +190,4 @@ x_c \\
 \dfrac{-1}{l m_c}
 \end{bmatrix}
 F_x
-$$
 $$
