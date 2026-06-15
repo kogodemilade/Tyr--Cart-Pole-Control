@@ -10,12 +10,11 @@ This project is a simulation utilizing ROS2 and Gazebo Sim. This is intended to 
 This project can be split into 3 parts: the stl files creation, the matlab system design and the ros implementation. The CAD files were designed for quick simulation and can be 
 found in the src\pendulum\description\meshes directory. The MATLAB system design and ROS implementation are discussed below.
 
-<a name=matlab><\a>
+<a name=matlab\>
 ## MATLAB
 ### Mathematical Modelling 
 ![Cart-pole](images\cartpole.jpg)
 
-**Variables**
 **Variables**
 
 - $l$ = pendulum length
@@ -37,45 +36,29 @@ $$x_p = x_c + l\sin\theta$$
 
 $$\dot{x}_p = \dot{x}_c + l\dot{\theta}\cos\theta$$
 
-**Equation 1:**
-
-$$\ddot{x}_p = \ddot{x}_c + l\ddot{\theta}\cos\theta - l\dot{\theta}^2\sin\theta$$
+$$\ddot{x}_p = \ddot{x}_c + l\ddot{\theta}\cos\theta - l\dot{\theta}^2\sin\theta \tag{1}$$
 
 $$y_p = l\cos\theta$$
 
 $$\dot{y}_p = -l\dot{\theta}\sin\theta$$
 
-**Equation 2:**
-
 $$\ddot{y}_p = -l\ddot{\theta}\sin\theta - l\dot{\theta}^2\cos\theta$$
 
 Applying Newton's laws:
 
-**Equation 3:**
-
-$$\sum F_{xp} = m_p\ddot{x}_p = T\sin\theta$$
-
-**Equation 4:**
+$$\sum F_{xp} = m_p\ddot{x}_p = T\sin\theta \tag{2}$$
 
 $$\sum F_{yp} = m_p\ddot{y}_p = T\cos\theta - m_p g$$
 
-**Equation 5:**
+$$\sum F_{xc} = m_c\ddot{x}_c = F_x - T\sin\theta \tag{3}$$
 
-$$\sum F_{xc} = m_c\ddot{x}_c = F_x - T\sin\theta$$
+Substituting equation (1) into equation (2):
 
-Substituting Equation 1 into Equation 3:
+$$m_p(\ddot{x}_c + l\ddot{\theta}\cos\theta - l\dot{\theta}^2\sin\theta) = T\sin\theta \tag{4}$$
 
-**Equation 6:**
+$$m_p(-l\ddot{\theta}\sin\theta - l\dot{\theta}^2\cos\theta) = T\cos\theta - mg \tag{5}$$
 
-$$m_p(\ddot{x}_c + l\ddot{\theta}\cos\theta - l\dot{\theta}^2\sin\theta) = T\sin\theta$$
-
-**Equation 7:**
-
-$$m_p(-l\ddot{\theta}\sin\theta - l\dot{\theta}^2\cos\theta) = T\cos\theta - mg$$
-
-Dividing Equation 7 by Equation 6 and cross-multiplying yields:
-
-**Equation 8:**
+Dividing equation (5) by equation (4) and cross-multiplying yields:
 
 $$\cos\theta(\ddot{x}_c + l\ddot{\theta}\cos\theta - l\dot{\theta}^2\sin\theta) = \sin\theta(-l\ddot{\theta}\sin\theta - l\dot{\theta}^2\cos\theta) + mg\sin\theta$$
 
@@ -87,19 +70,15 @@ $$\ddot{x}_c\cos\theta = -l\ddot{\theta}(\cos^2\theta + \sin^2\theta) + g\sin\th
 
 From trig identities, $(\cos^2\theta + \sin^2\theta) = 1$
 
-**Equation 9:**
+$$\therefore g\sin\theta - l\ddot{\theta} - \ddot{x}_c\cos\theta = 0 \tag{6}$$
 
-$$\therefore g\sin\theta - l\ddot{\theta} - \ddot{x}_c\cos\theta = 0$$
-
-Substituting Equation 6 into Equation 5:
+Substituting equation (4) into equation (3):
 
 $$m_c\ddot{x}_c = F_x - \ddot{x}_c m_p - m_p l\ddot{\theta}\cos\theta + m_p l\dot{\theta}^2\sin\theta$$
 
-**Equation 10:**
+$$F_x = \ddot{x}_c(m_p+m_c) + \ddot{\theta}(m_p l\cos\theta) - m_p l\dot{\theta}^2\sin\theta \tag{7}$$
 
-$$F_x = \ddot{x}_c(m_p+m_c) + \ddot{\theta}(m_p l\cos\theta) - m_p l\dot{\theta}^2\sin\theta$$
-
-Putting the system of equations (Equation 9 and Equation 10) in matrix form yields:
+Putting the system of equations (6) and (7) in matrix form yields:
 
 $$
 \begin{bmatrix}
@@ -212,4 +191,5 @@ x_c \\
 \dfrac{-1}{l m_c}
 \end{bmatrix}
 F_x
+$$
 $$
