@@ -16,87 +16,200 @@ found in the src\pendulum\description\meshes directory. The MATLAB system design
 ![Cart-pole](images\cartpole.jpg)
 
 **Variables**
-$$
-l = pendulum length
-m_c = cart mass
-m_p = pendulum mass
-x_c = cart position
-x_p = pendulum horizontal position
-y_p = pendulun vertical position
-\dot{x_c} = cart velocity
-\dot{x_p} = pole horizontal velocity
-\dot{y_p} = pole vertical velocity
-\theta = pole angular displacement from vertical axis
-g = acceleration due to gravity, 9.81ms^{-2}
-T = Rod tension 
-$$
+**Variables**
 
-$$
-First, we get the horizontal and vertical accelerations for the pendulum center of mass (which is at its tip)
-x_p = x_c + lsin\theta
-\dot{x_p} = \dot{x_c} + l\dot{\theta}cos\theta
+- $l$ = pendulum length
+- $m_c$ = cart mass
+- $m_p$ = pendulum mass
+- $x_c$ = cart position
+- $x_p$ = pendulum horizontal position
+- $y_p$ = pendulum vertical position
+- $\dot{x}_c$ = cart velocity
+- $\dot{x}_p$ = pole horizontal velocity
+- $\dot{y}_p$ = pole vertical velocity
+- $\theta$ = pole angular displacement from vertical axis
+- $g$ = acceleration due to gravity, $9.81 \, \text{ms}^{-2}$
+- $T$ = Rod tension
 
-\begin{equation}
-\ddot{x_p} = \ddot{x_c} + l\ddot{\theta}cos\theta - l\dot{theta}^2sin\theta
-\label{horizontal_accel}
-\end{equation}
+First, we get the horizontal and vertical accelerations for the pendulum center of mass (which is at its tip):
 
-y_p =lcos\theta
-\dot{y_p} = -l\dot{\theta}sin\theta
-\begin{equation}
-\ddot{y_p} = -l\ddot{\theta}sin\theta - l\dot{\theta}^2cos\theta
-\label{vertical_acceleration}
-\end{equation}
+$$x_p = x_c + l\sin\theta$$
+
+$$\dot{x}_p = \dot{x}_c + l\dot{\theta}\cos\theta$$
+
+**Equation 1:**
+
+$$\ddot{x}_p = \ddot{x}_c + l\ddot{\theta}\cos\theta - l\dot{\theta}^2\sin\theta$$
+
+$$y_p = l\cos\theta$$
+
+$$\dot{y}_p = -l\dot{\theta}\sin\theta$$
+
+**Equation 2:**
+
+$$\ddot{y}_p = -l\ddot{\theta}\sin\theta - l\dot{\theta}^2\cos\theta$$
 
 Applying Newton's laws:
-\begin{equation}
-\sum_{}^{} F_{xp} = m_p\ddot{x}_p = Tsin\theta
-\label{horiz_force_sum}
-\end{equation}
-\begin{equation}
-\sum_{}^{} F_{yp} = m_p\ddot{y}_p = Tcos\theta - m_pg
-\label{vertical_force_sum}
-\end{equation}
-\begin{equation}
-\sum_{}^{} F_{xc} = m_c\ddot{x}_c = F_x - Tsin\theta
-\label{cart_force_sum}
-\end{equation}
 
-Substituting equ(\ref{horizontal_accel}) into equ(\ref{horiz_force_sum}):
-\begin{equation}
-m_p(\ddot{x}_c + l\ddot{\theta}cos\theta - l\theta^2sin\theta) = Tsin\theta
-\label{Tsin}
-\end{equation}
+**Equation 3:**
 
-\begin{equation}
-m_p(-l\ddot{\theta}sin\theta - l\dot{\theta}^2cos\theta) = Tcos\theta - mg
-\label{Tcos}
-\end{equation}
+$$\sum F_{xp} = m_p\ddot{x}_p = T\sin\theta$$
 
-Dividing equ(ref\{Tcos}) by equ(ref\{Tsin}) and cross-multiplying yields:
-\begin{equation}
-cos\theta(\dot{x}_c+l\ddot{\theta}cos\theta - l\dot{\theta}^2sin\theta) = sin\theta(-l\ddot{\theta}sin\theta - l\dot{\theta}^2cos\theta) + mgsin\theta
-\label{cross_mult_result}
-\end{equation}
+**Equation 4:**
+
+$$\sum F_{yp} = m_p\ddot{y}_p = T\cos\theta - m_p g$$
+
+**Equation 5:**
+
+$$\sum F_{xc} = m_c\ddot{x}_c = F_x - T\sin\theta$$
+
+Substituting Equation 1 into Equation 3:
+
+**Equation 6:**
+
+$$m_p(\ddot{x}_c + l\ddot{\theta}\cos\theta - l\dot{\theta}^2\sin\theta) = T\sin\theta$$
+
+**Equation 7:**
+
+$$m_p(-l\ddot{\theta}\sin\theta - l\dot{\theta}^2\cos\theta) = T\cos\theta - mg$$
+
+Dividing Equation 7 by Equation 6 and cross-multiplying yields:
+
+**Equation 8:**
+
+$$\cos\theta(\ddot{x}_c + l\ddot{\theta}\cos\theta - l\dot{\theta}^2\sin\theta) = \sin\theta(-l\ddot{\theta}\sin\theta - l\dot{\theta}^2\cos\theta) + mg\sin\theta$$
 
 Simplifying:
-\ddot{x}_ccos\theta + l\ddot{\theta}cos^2\theta= -l\ddot{\theta}sin^2\theta + gsin{\theta}
-\ddot{x}_ccos\theta = -l\ddot{\theta}(cos^2\theta + sin^2\theta) + gsin\theta
 
-From trig identities, (cos^2\theta + sin^2\theta) = 1
+$$\ddot{x}_c\cos\theta + l\ddot{\theta}\cos^2\theta = -l\ddot{\theta}\sin^2\theta + g\sin\theta$$
 
-\begin{equation}
-\therefore gsin\theta - l\ddot{\theta} - \ddot{x}_ccos\{\theta} = 0
-\label{sig_equ_1}
-\end{equation}
+$$\ddot{x}_c\cos\theta = -l\ddot{\theta}(\cos^2\theta + \sin^2\theta) + g\sin\theta$$
 
-Substituting equ(\ref{Tsin}) into equ(\ref{cart_force_sum}):
-m_c\ddot{x}_c = F_x - \ddot{x}_cm_p - m_pl\ddot{\theta}cos{\theta} + m_pl\dot{\theta}^2sin\theta
-F_x = \ddot{x}_c(m_p+m_c) + \ddot{\theta}(m_plcos\theta) - m_pl\dot{\theta}^2sin\theta
+From trig identities, $(\cos^2\theta + \sin^2\theta) = 1$
 
+**Equation 9:**
 
+$$\therefore g\sin\theta - l\ddot{\theta} - \ddot{x}_c\cos\theta = 0$$
 
+Substituting Equation 6 into Equation 5:
 
+$$m_c\ddot{x}_c = F_x - \ddot{x}_c m_p - m_p l\ddot{\theta}\cos\theta + m_p l\dot{\theta}^2\sin\theta$$
 
+**Equation 10:**
 
+$$F_x = \ddot{x}_c(m_p+m_c) + \ddot{\theta}(m_p l\cos\theta) - m_p l\dot{\theta}^2\sin\theta$$
 
+Putting the system of equations (Equation 9 and Equation 10) in matrix form yields:
+
+$$
+\begin{bmatrix}
+F_x \\
+0
+\end{bmatrix}
+=
+\begin{bmatrix}
+m_p+m_c & m_p l\cos\theta \\
+-\cos\theta & -l
+\end{bmatrix}
+\begin{bmatrix}
+\ddot{x}_c \\
+\ddot{\theta}
+\end{bmatrix}
++
+\begin{bmatrix}
+-l m_p \dot{\theta}^2\sin\theta \\
+g\sin\theta
+\end{bmatrix}
+$$
+
+Making the (incomplete) state vector the subject:
+
+$$
+\begin{bmatrix}
+\ddot{x}_c \\
+\ddot{\theta}
+\end{bmatrix}
+=
+\frac{1}{\Delta}
+\begin{bmatrix}
+-l & -m_p l\cos\theta \\
+\cos\theta & m_p+m_c
+\end{bmatrix}
+\begin{bmatrix}
+F_x + l m_p \dot{\theta}^2\sin\theta \\
+-g\sin\theta
+\end{bmatrix}
+$$
+
+Where $\Delta = -l(m_p + m_c) + m_p l\cos^2\theta$
+
+Now, we can use the following small-angle approximations to linearize our system of equations:
+
+$$\sin\theta \to \theta, \quad \cos\theta \to 1, \quad \dot{\theta}^2 \to 0 \quad \text{as} \quad \theta \to 0$$
+
+$$
+\begin{bmatrix}
+\ddot{x}_c \\
+\ddot{\theta}
+\end{bmatrix}
+=
+\frac{1}{\Delta}
+\begin{bmatrix}
+-l & -m_p l \\
+1 & m_p+m_c
+\end{bmatrix}
+\begin{bmatrix}
+F_x \\
+-g\theta
+\end{bmatrix}
+$$
+
+This gives us the following linearized equations:
+
+$$\ddot{x}_c = \frac{-m_p g}{m_c}\theta + \frac{1}{m_c} F_x$$
+
+$$\ddot{\theta} = \frac{g(m_p+m_c)}{m_c l}\theta + \frac{-1}{m_c l}F_x$$
+
+We choose the state vector to be the cart position, cart velocity, pole angle and pole angular velocity:
+
+$$
+\mathbf{x} =
+\begin{bmatrix}
+x_c \\
+\dot{x}_c \\
+\theta \\
+\dot{\theta}
+\end{bmatrix}
+$$
+
+The complete state differential equation becomes:
+
+$$
+\begin{bmatrix}
+\dot{x}_c \\
+\ddot{x}_c \\
+\dot{\theta} \\
+\ddot{\theta}
+\end{bmatrix}
+=
+\begin{bmatrix}
+0 & 1 & 0 & 0 \\
+0 & 0 & \dfrac{-g m_p}{m_c} & 0 \\
+0 & 0 & 0 & 1 \\
+0 & 0 & \dfrac{g(m_p+m_c)}{m_c l} & 0
+\end{bmatrix}
+\begin{bmatrix}
+x_c \\
+\dot{x}_c \\
+\theta \\
+\dot{\theta}
+\end{bmatrix}
++
+\begin{bmatrix}
+0 \\
+\dfrac{1}{m_c} \\
+0 \\
+\dfrac{-1}{l m_c}
+\end{bmatrix}
+F_x
+$$
